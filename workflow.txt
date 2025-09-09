@@ -1,6 +1,5 @@
 PROJECTS: esp32_c3_042_oled
 IDF: v5.4.1
-ARDUINO:  
 
 GPIO9 = boot pin 
 to test board
@@ -15,6 +14,7 @@ HW: ABRobot ESP32-C3 0.42 OLED
     DOC https://emalliab.wordpress.com/2025/02/12/esp32-c3-0-42-oled/
     CPU ESP32C3
     Flash 4M
+    FCPU 160 MHZ
 
 FW.ref
     https://github.com/zhuhai-esp/ESP32-C3-ABrobot-OLED 
@@ -39,6 +39,9 @@ COMMAND to reconfig project
 
 //====================KEY==============================
 # show flash size 
+    idf.py size
+        look "Total image size: 181314 bytes 
+    or 
     idf.py size-components
 # burn all 
     idf.py -p /dev/ttyACM0 -b 921600 flash

@@ -4,10 +4,11 @@ static const char* firmware_verion = "NODE 0.0.1";
 #include "freertos/FreeRTOS.h"
 #include "driver/gpio.h"
 #include "esp_log.h"
-
+#include "main1.h"
 
 void app_main()
 {
+    system_info();
     // initArduino();
     // pinMode(4, OUTPUT);
     // digitalWrite(4, HIGH);
@@ -16,7 +17,6 @@ void app_main()
     // wifi_connection();
     // gpio_reset_pin(LED_P);
     // gpio_set_direction(LED_P, GPIO_MODE_OUTPUT);
-
 
     // gpio_config_t pwr_gpio_config = {};
     // pwr_gpio_config.mode = GPIO_MODE_OUTPUT;
