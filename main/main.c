@@ -32,6 +32,6 @@ void app_main(void)
     TickType_t last_wake = xTaskGetTickCount();
     while (1) {
         ESP_LOGI(TAG, "Main loop tick %lu", counter++);
-        vTaskDelayUntil(&last_wake, pdMS_TO_TICKS(100));
+        vTaskDelayUntil(&last_wake, pdMS_TO_TICKS(10000));
     }
 }

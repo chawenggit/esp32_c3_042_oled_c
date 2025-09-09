@@ -5,11 +5,11 @@
 #include "freertos/task.h"
 #include "driver/gpio.h"
 
-static const char *TAG = "USB_CONSOLE";
+static const char* TAG = "USB_CONSOLE";
 
 #define CMD_BUF_LEN 128
 
-void usb_console_receive_task(void *arg)
+void usb_console_receive_task(void* arg)
 {
     char buf[CMD_BUF_LEN];
     size_t idx = 0;
@@ -18,16 +18,18 @@ void usb_console_receive_task(void *arg)
     // Configure LED pin as output
     gpio_reset_pin(LED1_GPIO);
     gpio_set_direction(LED1_GPIO, GPIO_MODE_OUTPUT);
-
+    TickType_t last_wake = xTaskGetTickCount();
+    // uint32_t counter = 0;
     while (1) {
-        int c = getchar();  // blocking read from USB Serial/JTAG
+        int c = getchar(); // blocking read from USB Serial/JTAG
+
         if (c != EOF) {
             ESP_LOGI(TAG, "'%c' STACK FREE =%ld Bytes", c, (unsigned long int)uxTaskGetStackHighWaterMark(NULL));
 
             if (c == '\n' || c == '\r') {
                 // End of line
                 if (idx > 0) {
-                    buf[idx] = '\0';  // null terminate
+                    buf[idx] = '\0'; // null terminate
                     ESP_LOGI(TAG, "Received command: \"%s\"", buf);
 
                     // Parse LED command
@@ -53,6 +55,8 @@ void usb_console_receive_task(void *arg)
                 idx = 0;
             }
         }
-        vTaskDelay(10 / portTICK_PERIOD_MS);
+        // ESP_LOGI(TAG, "loop tick %lu", counter++);
+        vTaskDelayUntil(&last_wake, pdMS_TO_TICKS(20));
+        // vTaskDelay(10 / portTICK_PERIOD_MS);
     }
 }
