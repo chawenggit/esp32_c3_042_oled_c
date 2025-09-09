@@ -10,5 +10,6 @@ idf_component_register(
         
         u8g2 
         u8g2-hal-esp-idf
+        usb_console
 )
 spiffs_create_partition_image(spiffs ../data FLASH_IN_PROJECT)    

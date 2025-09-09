@@ -129,6 +129,8 @@ BOARD WT32_SC01_Plus
 
 
 #define TaskStack1K 1024
+#define TaskStack2K (TaskStack1K * 2)
+#define TaskStack3K (TaskStack1K * 3)
 #define TaskStack4K (TaskStack1K * 4)
 #define TaskStack8K (TaskStack1K * 8)
 #define Priority1 1
