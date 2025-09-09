@@ -17,7 +17,9 @@ static void receive_task(void *arg)
     while (1) {
         int c = getchar();  // blocking read from USB Serial/JTAG
         if (c != EOF) {
-            if (c == '\n' || c == '\r') {
+            ESP_LOGI(TAG, "'%c'", c);
+            // printf("=%c", c);
+            if (c == '\n') {
                 // End of line
                 if (idx > 0) {
                     buf[idx] = '\0';  // null terminate
@@ -69,6 +71,6 @@ void app_main(void)
     TickType_t last_wake = xTaskGetTickCount();
     while (1) {
         ESP_LOGI(TAG, "Main loop tick %lu", counter++);
-        vTaskDelayUntil(&last_wake, pdMS_TO_TICKS(3000));
+        vTaskDelayUntil(&last_wake, pdMS_TO_TICKS(10000));
     }
 }
