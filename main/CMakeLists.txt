@@ -6,6 +6,7 @@ idf_component_register(
     PRIV_REQUIRES
         esp_psram
         spi_flash    
+        nvs_flash
         
         u8g2 
         u8g2-hal-esp-idf

@@ -8,6 +8,8 @@
 #include "esp_heap_caps.h" // for heap_caps_malloc if you use it
 #include "esp_system.h"
 
+#include "driver/uart.h"
+
 static const char* TAG = "MAIN1";
 void system_info()
 {
@@ -47,4 +49,56 @@ void system_info()
     ESP_LOGI(TAG, "Free Heap Size: %d bytes", heap_caps_get_free_size(MALLOC_CAP_DEFAULT));
     ESP_LOGI(TAG, "Free PSRAM Size: %d bytes", heap_caps_get_free_size(MALLOC_CAP_SPIRAM));
     ESP_LOGI(TAG, "----------- SYS INFO END --------"); // todo why uncomment this , screen fail
+}
+
+
+#define UART0_COMMAND_LINE_MAX_SIZE 1024
+void UART0_setup() {
+    uart_config_t uart_config = {
+        .baud_rate           = 115200,
+        .data_bits           = UART_DATA_8_BITS,
+        .parity              = UART_PARITY_DISABLE,
+        .stop_bits           = UART_STOP_BITS_1,
+        .flow_ctrl           = UART_HW_FLOWCTRL_DISABLE,
+        //.rx_flow_ctrl_thresh = 122,
+        //.use_ref_tick        = false,
+    };
+
+    // Configure UART parameters
+    ESP_ERROR_CHECK(uart_param_config(UART_NUM_0, &uart_config));
+    // Set UART pins(TX: IO4, RX: IO5, RTS: IO18, CTS: IO19)
+    //ESP_ERROR_CHECK(uart_set_pin(UART_NUM_0, 13, 26, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE));
+    ESP_ERROR_CHECK(uart_driver_install(UART_NUM_0, UART0_COMMAND_LINE_MAX_SIZE, 0, 0, NULL, 0));
+}
+
+
+void UART0_task(void *argument)
+{
+	// UART0_setup();
+
+  	// char command_line[UART0_COMMAND_LINE_MAX_SIZE];
+  	for (;;)
+	{	
+        int c = getchar(); 
+        putchar(c);
+        if (c != -1)
+            ESP_LOGI("UART", "Got key: %c (ASCII %d)", c, c);
+
+
+
+		// int len = uart_read_bytes(UART_NUM_0, command_line, (UART0_COMMAND_LINE_MAX_SIZE - 1), 200 / portTICK_PERIOD_MS);
+        // if (len) {
+        //     command_line[len] = 0;
+        //     ESP_LOGI("UART", "Got key: %c (ASCII %d) %s", command_line[0], command_line[0], command_line);
+		// 	// ParseSystemCmd(command_line, len); // Line is complete. Execute it!
+		// 	// memset(&command_line, 0, sizeof(command_line));
+        // }
+        // else{
+        //     ESP_LOGI("UART", "Got no key:");
+            
+        // }
+		vTaskDelay(1000/portTICK_PERIOD_MS);
+
+  }
+
 }

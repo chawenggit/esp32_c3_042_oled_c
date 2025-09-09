@@ -117,7 +117,15 @@ BOARD WT32_SC01_Plus
 #define LCD_SDA_P GPIO_NUM_5
 #define SW_P GPIO_NUM_9
 
-
+#define MainLoopT 20 // 20x1mS *** subject to change
+#define T20mS 1
+#define T40mS 2 * T20mS
+#define T60mS 3 * T20mS
+#define T80mS 4 * T20mS
+#define T100mS 5 * T20mS
+#define T1S 10 * T100mS
+#define T2S 2 * T1S
+#define T3S 3 * T1S
 
 
 #define TaskStack1K 1024
