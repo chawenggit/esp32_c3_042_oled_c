@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>HMI CONFIG</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
+    <!-- prevent favicon request -->
+    <!-- <link rel="icon" href="data:,"> -->
+
+</head>
+<style>
+    .parent {
+        /* height: 100vh; */
+        display: flex;
+        justify-content: center;
+        /* align-content: space-around; */
+        */
+        /* flex-direction: column; */
+        /* align-items: center; */
+    }
+
+    .parent .chld1 {
+        border: 2px solid black;
+        margin: 5px;
+        padding: 3px;
+    }
+
+    .child {
+        height: 200px;
+        width: 200px;
+        background: rgb(39, 61, 134);
+        order: 2;
+    }
+
+    h2 {
+        margin: 5px;
+        /* border: 2px solid black; */
+    }
+
+    h3 {
+        margin: 2px;
+    }
+
+    form {
+        margin: 3px;
+    }
+
+
+    input {
+        margin: 2px;
+        border: 1px solid black;
+    }
+
+    table {
+        border: 2px solid black;
+        border-collapse: collapse;
+        margin: 5px;
+        align-content: center;
+        text-align: center;
+        padding: 5px;
+    }
+
+    tr td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        /* padding: 5px; */
+    }
+
+    th {
+        border: 1px solid black;
+        border-collapse: collapse;
+
+        padding: 5px;
+        text-align: left;
+        background: yellow;
+    }
+
+    #id_save {
+        font-size: large;
+        height: 70px;
+        width: 150px;
+        background-color: darkgray;
+        border-radius: 10px;
+    }
+
+    #id_upload_conf,
+    #id_download_conf {
+        font-size: large;
+        height: 70px;
+        width: 160px;
+        background-color: aquamarine;
+        border-radius: 10px;
+    }
+
+    #id_reboot {
+        font-size: large;
+        height: 70px;
+        width: 150px;
+        background-color: red;
+        border-radius: 10px;
+    }
+
+    input[type='number'] {
+        width: 70px;
+    }
+</style>
+
+<body>
+    <center>
+        <h2>HMI CONFIGURATION <span id="firmware_verion">0.00</span></h2>
+        <form id="id_formOsip">
+            <label for="lineName_id">LINE Name</label>
+            <input id="lineName_id" type="text">
+            &nbsp
+            <label for="os_ip">HMI IP </label>
+            <input size="11" id="os_ip" type="text" placeholder="192.168.x.xxx">
+            &nbsp
+            <label for="id_hmi_mcid"> HMI M/C ID </label>
+            <select id="id_hmi_mcid">
+            </select>
+
+            &nbsp
+            <label for="id_sleep"> Sleep(sec)</label>
+            <input size="1" id="id_sleep" type="text" placeholder="xxx">
+
+        </form>
+
+        <form id="id_formHC12">
+            <label for="id_hc12_ch">HC12 Channel</label>
+            <input size="1" id="id_hc12_ch" type="number" placeholder="xxx">
+            &nbsp
+            <label for="id_hc12_echo"> HC12 Echo </label>
+            <select id="id_hc12_echo">
+                <option value="0">disable</option>
+                <option value="1">enable</option>
+            </select>
+        </form>
+
+        <form id="id_formPc">
+            <label for="pc_mac"> PC &nbsp MAC </label>
+            <input size="13" id="pc_mac" type="text" placeholder="01:23:45:67:89:AB">
+            &nbsp
+            <label for="pc_ip"> IP </label>
+            <input size="11" id="pc_ip" type="text" placeholder="192.168.x.xxx">
+            &nbsp
+            <label for="pc_port"> PORT </label>
+            <input size="2" id="pc_port" type="number" placeholder="xxxx">
+        </form>
+        <div class=" parent">
+            <div class="chld1">
+
+                <h3>IO MODULE 1</h3>
+                <form>
+                    <select id="enb1" class="cls_select">
+                        <option value="0">disable</option>
+                        <option value="1">enable</option>
+                    </select>
+                </form>
+                <label for="io_ip1">IP</label>
+                <input size="11" id="io_ip1" type="text" placeholder="192.168.x.xxx">
+                <label for="io_port1">PORT</label>
+                <input size="2" id="io_port1" type="number" placeholder="xxx">
+                <div>
+                    <table id="id_table1">
+                        <thead>
+                            <tr>
+                                <th>IO</th>
+                                <th>MC</th>
+                                <th>Function</th>
+                            </tr>
+                        </thead>
+                        <tbody id="id_tbody1">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="chld1">
+                <h3>IO MODULE 2</h3>
+                <form>
+                    <select id="enb2" class="cls_select">
+                        <option value="0">disable</option>
+                        <option value="1">enable</option>
+                    </select>
+                </form>
+                <label for="io_ip2">IP</label>
+                <input size="11" id="io_ip2" type="text" placeholder="192.168.x.xxx">
+                <label for="io_port2">PORT</label>
+                <input size="2" id="io_port2" type="number" placeholder="xxx">
+                <div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>IO</th>
+                                <th>MC</th>
+                                <th>Function</th>
+                            </tr>
+                        </thead>
+                        <tbody id="id_tbody2">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <div>
+            <button id="id_reboot">REBOOT<br>SYSTEM</button>
+            &nbsp
+            &nbsp
+            <button id="id_save">SAVE<br>SYSTEM</button>
+        </div>
+        <br>
+        <div>
+            <label for="files">Select JSON </label>
+            <input id="fileToLoad" type="file">
+        </div>
+        <br>
+        <div>
+            <button id="id_upload_conf">UPLOAD<br>CONFIG</button>
+            &nbsp
+            &nbsp
+            <button id="id_download_conf">DOWNLOAD<br>CONFIG</button>
+        </div>
+
+    </center>
+
+    <script src="index.js"></script>
+</body>
+
+</html>

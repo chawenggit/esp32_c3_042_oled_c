@@ -1,0 +1,152 @@
+PROJECTS: esp32_c3_042_oled
+IDF: v5.4.1
+ARDUINO:  
+
+GPIO9 = boot pin 
+to test board
+
+VERSION  DATE        DETAILS
+V2.02    7/7/2025    2.02        solve multiple MODBUS connects by connect once 
+
+Book : Espressif Systems - ESP32-C3 Wireless Adventure_ A Comprehensive Guide to IoT-Espressif Systems (2023).pdf
+
+HW: ABRobot ESP32-C3 0.42 OLED
+    BUY FROM https://shopee.co.th/Esp32-c3-%E0%B8%9A%E0%B8%AD%E0%B8%A3%E0%B9%8C%E0%B8%94%E0%B8%9E%E0%B8%B1%E0%B8%92%E0%B8%99%E0%B8%B2-OLED-%E0%B9%80%E0%B8%AA%E0%B8%B2%E0%B8%AD%E0%B8%B2%E0%B8%81%E0%B8%B2%E0%B8%A8%E0%B9%80%E0%B8%8B%E0%B8%A3%E0%B8%B2%E0%B8%A1%E0%B8%B4%E0%B8%81-ESP32-%E0%B8%9A%E0%B8%AD%E0%B8%A3%E0%B9%8C%E0%B8%94%E0%B8%9E%E0%B8%B1%E0%B8%92%E0%B8%99%E0%B8%B2-supermini-wifi-%E0%B8%9A%E0%B8%A5%E0%B8%B9%E0%B8%97%E0%B8%B9%E0%B8%98-%E0%B8%AB%E0%B8%99%E0%B9%89%E0%B8%B2%E0%B8%88%E0%B8%AD-0.42-%E0%B8%99%E0%B8%B4%E0%B9%89%E0%B8%A7-i.527130406.29065028516 
+    DOC https://emalliab.wordpress.com/2025/02/12/esp32-c3-0-42-oled/
+    CPU ESP32C3
+    Flash 4M
+
+FW.ref
+    https://github.com/zhuhai-esp/ESP32-C3-ABrobot-OLED 
+
+
+IDF new projects name, CPU,Serial port and Arduino-as-component template
+    files   
+    1 projects's cmakelists
+    2 sdkconfig.default
+    3 .gitignore    
+    4 partitions.csv
+
+IDF_terminal
+    source ~/esp/v5.4/esp-idf/export.sh
+    idf.py -p /dev/ttyACM0 monitor | tee -a log2_7_25.txt   
+
+COMMAND to reconfig project
+        rm sdkconfig
+        idf.py reconfigure
+        idf.py fullclean
+        idf.py build
+
+//====================KEY==============================
+# show flash size 
+    idf.py size-components
+# burn all 
+    idf.py -p /dev/ttyACM0 -b 921600 flash
+# burn only code
+    idf.py -p /dev/ttyACM3 -b 921600 app-flash
+# burn only spiffs
+    esptool.py --port /dev/ttyACM0 write_flash 0xC90000 build/spiffs.bin
+# combo (burn only app)
+        idf.py -p /dev/ttyACM0 -b 921600 build app-flash monitor
+        idf.py -p /dev/ttyACM0 -b 921600 build app-flash monitor | tee log.txt    
+        idf.py -p /dev/ttyACM0 -b 921600 build app-flash monitor | tee -a log.txt    
+# all        
+        idf.py -p /dev/ttyACM2 -b 921600 build flash monitor
+LOGGING
+# not append
+idf.py -p /dev/ttyACM0 monitor | tee log.txt    
+# append 
+idf.py -p /dev/ttyACM0 monitor | tee -a log.txt 
+//========================================================
+#OTA url/update (redtech/3210) firmward/data(spiffs)
+
+# submodule
+    # clone
+        git submodule update --init --recursive        
+    # add 
+        git submodule add  https://github.com/lvgl/lvgl.git components/lvgl        
+    # removes
+        # 1. Remove the submodule entry from .gitmodules
+        git config -f .gitmodules --remove-section submodule.components/LovyanGFX
+        git add .gitmodules
+
+        # 2. Remove the submodule entry from .git/config (optional but good practice)
+        git submodule deinit -f components/LovyanGFX
+
+        # 3. Remove the Git tracking information of the submodule
+        git rm -f components/LovyanGFX
+
+        # 4. Delete any remaining submodule directory if still present
+        rm -rf .git/modules/components/LovyanGFX
+u8g2
+    git submodule add https://github.com/olikraus/u8g2.git  components/u8g2
+    ex.code 
+        https://github.com/ltkdt/LTKDT-s_small_projects/tree/master/esp_idf%20u8g2%20oled 
+        https://github.com/zhuhai-esp/ESP32-C3-ABrobot-OLED/blob/main/C3-ABrobot-OLED/src/main.cpp
+    youtube: ESP32 with ESP-IDF # 7 | Using U8G2 library for monochrome OLED display
+    use manual https://github.com/olikraus/u8g2/wiki/u8g2reference 
+
+
+u8g2-hal-esp-idf    
+    git clone https://github.com/mkfrey/u8g2-hal-esp-idf.git  components/u8g2-hal-esp-idf
+    rm -rf components/u8g2-hal-esp-idf/.git
+    u8g2_esp32_hal.h
+        #define I2C_MASTER_FREQ_HZ 400000     //  I2C master clock frequency
+
+ESP32
+    https://github.com/nkolban/esp32-snippets/tree/master
+
+wifi1
+    change SSID,PWD
+
+
+ARDUINO   
+    git rm -r --cached components/arduino
+        > git rm removes files or folders from Git tracking.
+        > -r recursively removes the folder and its contents.
+        >--cached tells Git to stop tracking the folder, but leave the actual files on disk (they won’t be deleted from your working directory).
+    rm -rf components/arduino
+    git submodule add https://github.com/espressif/arduino-esp32.git components/arduino 
+     commit 422e52684b824a3fde85989ea90abf6624f2b0eb (HEAD -> master, origin/master, origin/HEAD)
+
+ArduinoJson
+    git submodule add https://github.com/bblanchon/ArduinoJson.git components/ArduinoJson
+
+webserver
+    use(IP.X.X.X.X/login)  : 6789
+
+HTTPUpdateServer
+    insert HTTPUpdateServer in /components/arduino/CMakeLists.txt: set(ARDUINO_ALL_LIBRARIES)
+    use(IP.X.X.X.X/update) : redtech/3210
+
+Flows        
+    idf.port : file .vscode/settings.json        
+    GUI build, flash, IDF_terminal on edition pane            
+
+W5500 : modified from ~/esp/v5.4/esp-idf/examples/ethernet/basic
+
+MODBUS : use simple NetworkClient
+
+USE PREV_REQUIRE only
+
+when New component 
+    idf.py clean
+
+spiffs (https://esp32tutorials.com/esp32-spiffs-esp-idf/)
+    partitions.csv must have
+        spiffs,     data, spiffs,  ,    0x8000,
+    cmakelists    
+        /main/CMakeLists append
+            spiffs_create_partition_image(spiffs ../data FLASH_IN_PROJECT)        
+    folder ./data
+
+vscode
+    Primary Side Bar Position : CNTL+SHIFT+P - - > View: Toggle Primary Side Bar Position    
+
+HC12 
+    *** need delay after AT+DEFAULT *** 200 ms
+
+# issue
+    23/6/2025 : adding arduino in hmi/cmakelists make it reboot 
+                but adding wol work    
+    

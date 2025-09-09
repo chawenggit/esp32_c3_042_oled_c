@@ -1,0 +1,34 @@
+# Name,     Type, SubType, Offset,     Size,      Flags
+#nvs,        data, nvs,     ,      0x4000,
+#otadata,    data, ota,     ,      0x2000,
+#phy_init,   data, phy,     ,    0x1000,
+#app0,       app,  ota_0,   ,     0x1F0000,
+#app1,       app,  ota_1,   ,    0x1F0000,
+#spiffs,     data, spiffs,  ,    0x8000,
+
+# Partition table binary generated. Contents:
+# *******************************************************************************
+# # ESP-IDF Partition Table
+# # Name, Type, SubType, Offset, Size, Flags
+# nvs,data,nvs,0x9000,20K,
+# otadata,data,ota,0xe000,8K,
+# app0,app,ota_0,0x10000,1984K,
+# app1,app,ota_1,0x200000,1984K,
+# spiffs,data,spiffs,0x3f0000,32K,
+# *******************************************************************************
+
+
+# modify from https://github.com/espressif/arduino-esp32/blob/master/tools/partitions/default.csv
+# must be 4 KB-aligned 4096
+# Name,     Type, SubType, Offset,     Size,      Flags
+# nvs,        data, nvs,     0x9000,      20480,
+# otadata,    data, ota,     0xe000,      8192,
+# app0,       app,  ota_0,   0x10000,     131072,
+# app1,       app,  ota_1,   0x150000,    131072,
+# spiffs,     data, spiffs,  0x290000,    1474560,
+
+# Name,     Type, SubType, Offset,     Size,      Flags
+nvs,        data, nvs,     0x9000,    0x5000,
+phy_init,   data, phy,     0xe000,    0x1000,
+app0,       app,  factory, 0x10000,   0x200000,
+spiffs,     data, spiffs,  0x210000,  0x1EF000,
