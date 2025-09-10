@@ -5,17 +5,16 @@
 
 /*
             BOARD ESP32-C3 0.42 OLED
-                    (ESP32-C3)
-                LEFT   TOP VIEW     RIGHT
-                |1	+5V 			|1	GPIO10          | NA
-                |2	GND				|2	GPIO9	I2C_SCL | SW-RH 
-    	        |3	+3V3			|3	GPIO8	I2C_SDA | nBLUE LED
-    NA|    RXD0 |4	GPIO20			|4	GPIO7	        | NA
-    NA|    TXD0 |5	GPIO21			|5	GPIO6	MOSI    |OLED_SCL  
-    NA|     A2  |6	GPIO2       	|6	GPIO5   MISO,A5 |OLED_SDA 
-    NA|     A1  |7	GPIO1			|7	GPIO4        A4 | NA
-    NA|     A0  |8	GPIO0			|8	GPIO3        A3 | NA
-                    (USP-C on BOTTOM)
+                    SW LEFT  TOP VIEW  SW RIGHT
+        ADC1_3  |IO3	1               1  IO0  ADC1_0
+        ADC1_4  |IO4	2               2  IO1 	ADC1_1
+    	ADC2_0  |IO5	3               3  IO2 	ADC1_2
+    NA|         |IO6	4               4  TXD0 IO21
+    NA|         |IO7	5               5  RXD0 IO20
+    NA|         |IO8	6               6   3.3V
+    NA|         |IO9	7               7   GND
+    NA|         |IO10	8               8   +5V
+                        (USP-C on BOTTOM)
                     
 //Pin interfaces: 1xI2C, 1xSPI, 2xUART, 11xGPIO (PWM), 4xADC
 
